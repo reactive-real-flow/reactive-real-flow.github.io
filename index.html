@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description"
+        content="piR2: Reactive Real-time Flow Policies. Latency-adaptive flow with asynchronous VLM for action-chunking VLA policies.">
+  <title>piR2: Reactive Real-time Flow Policies</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <style>
+    /* ===== palette ===== */
+    :root {
+      --fast: #2c63b8;          /* fast channel = blue */
+      --fast-dark: #1a4185;
+      --fast-soft: #e8f1ff;
+      --slow: #d8447b;          /* slow channel = warm pink */
+      --slow-dark: #a83158;
+      --slow-soft: #fde4ee;
+      --accent: #ffb53a;        /* highlight = amber */
+      --bg-soft: #f6f8fc;
+    }
+
+    html { font-size: 18px; }
+    body { font-family: 'Noto Sans', sans-serif; color: #1a1a1a; font-size: 1.15rem; line-height: 1.75; background: #fff; }
+
+    /* ===== hero gradient ===== */
+    .hero-band {
+      background: linear-gradient(135deg, var(--fast-soft) 0%, #fff 50%, var(--slow-soft) 100%);
+      padding: 4rem 1.5rem 3rem 1.5rem;
+    }
+
+    .publication-title {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 3.25rem !important;
+      line-height: 1.2;
+      margin-bottom: 1rem !important;
+      background: linear-gradient(90deg, var(--fast) 0%, var(--slow) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .publication-title sup { -webkit-text-fill-color: var(--fast); }
+
+    .author-line { font-size: 1.6rem; color: #444; margin-top: 0.5rem; }
+
+    /* ===== section headers with colored underline ===== */
+    .section-title {
+      font-family: 'Google Sans', sans-serif;
+      margin-bottom: 1.5rem;
+      font-size: 3rem !important;
+      position: relative;
+      display: inline-block;
+      padding-bottom: 0.4rem;
+    }
+    .section-title::after {
+      content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 4px;
+      background: linear-gradient(90deg, var(--fast), var(--slow));
+      border-radius: 2px;
+    }
+
+    /* ===== links ===== */
+    a { color: var(--fast); }
+    a:hover { color: var(--fast-dark); }
+    a.conf-link { text-decoration: none; }
+    a.conf-link:hover .conf-badge {
+      background: linear-gradient(90deg, var(--fast), var(--slow));
+      color: #fff; transform: translateY(-1px);
+    }
+
+    /* ===== conf badge ===== */
+    .conf-badge {
+      display: inline-block; padding: 0.5rem 1.4rem; border-radius: 999px;
+      background: linear-gradient(90deg, var(--fast-soft), var(--slow-soft));
+      color: var(--fast-dark);
+      font-size: 1.15rem; font-weight: 600;
+      border: 1px solid #d8e3f1;
+      transition: all 0.18s;
+    }
+
+    /* ===== call-to-action button ===== */
+    .cta-button {
+      background: linear-gradient(90deg, var(--fast), var(--slow));
+      color: #fff; border: none;
+      padding: 0.85rem 1.8rem; border-radius: 999px;
+      font-size: 1.1rem; font-weight: 600;
+      display: inline-block; text-decoration: none;
+      box-shadow: 0 4px 14px rgba(44, 99, 184, 0.25);
+      transition: all 0.2s;
+    }
+    .cta-button:hover {
+      color: #fff; transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(216, 68, 123, 0.3);
+    }
+
+    /* ===== videos ===== */
+    .video-cell { text-align: center; }
+    .video-cell video { width: 100%; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+    .video-cell .label { font-weight: 600; font-size: 1.2rem; margin-top: 0.6rem; color: #555; }
+    .video-cell.ours video { box-shadow: 0 4px 18px rgba(44, 99, 184, 0.35); outline: 3px solid var(--fast); outline-offset: 2px; }
+    .video-cell .label.ours {
+      background: linear-gradient(90deg, var(--fast), var(--slow));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+
+    /* ===== task blocks ===== */
+    .task-block { margin-bottom: 4rem; }
+    .task-block h3 {
+      font-family: 'Google Sans', sans-serif;
+      font-size: 2.5rem !important;
+      color: var(--fast-dark);
+    }
+    /* every h3 sub-header (Quantitative Results, slider title, teleop headline, etc.) */
+    section.section h3.title.is-4 {
+      font-size: 2.25rem !important;
+      font-family: 'Google Sans', sans-serif;
+    }
+    .task-block h3 .task-tag {
+      display: inline-block; font-size: 1rem; font-weight: 600;
+      background: var(--accent); color: #5a3d00;
+      padding: 0.2rem 0.7rem; border-radius: 999px;
+      vertical-align: middle; margin-right: 0.6rem;
+    }
+
+    /* ===== captions, content ===== */
+    .speed-note { color: #888; font-size: 1.05rem; font-style: italic; text-align: center; margin-top: 1rem; }
+    .method-fig { display: block; margin: 0 auto; max-width: 980px; width: 100%; border-radius: 10px; }
+    .caption { color: #555; font-size: 1.1rem; text-align: center; margin-top: 0.85rem; line-height: 1.5; }
+    .content, .content p, .content li { font-size: 1.3rem; line-height: 1.7; }
+    .caption { font-size: 1.2rem !important; }
+    .content ul li { margin-top: 0.5rem; }
+    .content b { color: var(--fast-dark); }
+    .content em { color: var(--slow-dark); font-style: normal; font-weight: 600; }
+
+    /* ===== table (calm, readable) ===== */
+    table.results { font-size: 1.15rem; border-collapse: separate; border-spacing: 0; border-radius: 8px; overflow: hidden; border: 1px solid #e0e6ef; }
+    table.results th {
+      background: #f3f5fa; color: #1a4185; border: none !important;
+      border-bottom: 2px solid #d8dee8 !important;
+      font-weight: 700;
+    }
+    table.results th, table.results td { vertical-align: middle; text-align: center !important; padding: 0.85rem; }
+    table.results td.method { text-align: left !important; font-weight: 500; }
+    /* equal width for the 4 numeric columns so SR/Prog visually sit under their group label */
+    table.results th:nth-child(3), table.results th:nth-child(4),
+    table.results th:nth-child(5), table.results th:nth-child(6),
+    table.results td:nth-child(3), table.results td:nth-child(4),
+    table.results td:nth-child(5), table.results td:nth-child(6) { width: 11%; }
+    table.results tbody tr:nth-child(odd) td { background: #fff; }
+    table.results tbody tr:nth-child(even) td { background: #fafbfd; }
+    table.results tr.ours td { background: var(--fast-soft) !important; font-weight: 700; }
+    table.results tr.ours td.method { border-left: 4px solid var(--fast); }
+    /* Method header LEFT-aligned to match body cells; group separator for visual ties */
+    table.results th.th-method { text-align: left !important; }
+    table.results th.group-left, table.results tbody td:nth-child(3), table.results tbody td:nth-child(5) {
+      border-left: 2px solid #d8dee8;
+    }
+
+    /* ===== alternating section backgrounds ===== */
+    section.section { padding: 3.5rem 1.5rem; }
+    section.bg-soft { background: var(--bg-soft); }
+    .divider { border: 0; border-top: 1px solid #e0e6ef; margin: 2.5rem 0; }
+    .container.is-max-desktop { max-width: 1180px !important; }
+
+    /* ===== teaser caption highlight ===== */
+    .teaser-caption b { color: var(--fast-dark); }
+    .teaser-caption em, .teaser-caption .hl-slow { color: var(--slow-dark); font-style: normal; font-weight: 600; }
+
+
+    /* ===== speed badge highlight ===== */
+    .speed-badge {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--fast-soft), var(--slow-soft));
+      color: var(--fast-dark);
+      padding: 0.25rem 0.85rem;
+      border-radius: 999px;
+      font-size: 1.15rem;
+      border: 1px solid #d8e3f1;
+      margin-top: 0.4rem;
+    }
+
+    /* ===== brand mark (pi R^2 inline) ===== */
+    .brand {
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--fast), var(--slow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- ============ HERO ============ -->
+<section class="section">
+  <div class="container is-max-desktop has-text-centered">
+    <h1 class="title is-1 publication-title">
+      &pi;<b>R</b><sup>2</sup>: Reactive Real-time Flow Policies
+    </h1>
+    <p class="author-line">Anonymous Authors</p>
+    <div style="margin-top: 1.25rem;">
+      <a href="https://www.corl.org/" target="_blank" rel="noopener" class="conf-link">
+        <div class="conf-badge">Submitted to CoRL 2026</div>
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ TEASER: METHOD FIG ============ -->
+<section class="section" style="padding-top: 0; padding-bottom: 4rem;">
+  <div class="container is-max-desktop">
+    <img src="./static/images/concept.png" alt="piR2 concept figure" class="method-fig"/>
+    <p class="teaser-caption" style="font-size: 1.35rem !important; line-height: 1.6; margin-top: 1.5rem; max-width: 1000px; margin-left: auto; margin-right: auto; text-align: center; color: #2b2b2b;">
+      <span class="brand">&pi;R<sup>2</sup></span> makes large action-chunking VLAs
+      <b>reactive</b> and <b>real-time</b> for closed-loop control.
+      It splits the policy's conditioning into a <b>fast channel</b>
+      (proprioception, fresh every tick) and an
+      <b>asynchronously updated slow channel</b> (vision / language features),
+      and uses a <b>latency-adaptive flow schedule</b> that emits a fresh
+      action in a <b>single denoising step</b> per call &mdash; replanning
+      <b>closed-loop at 25&nbsp;Hz on a single A5000 GPU</b>, roughly
+      <b>4&times; faster</b> than the chunked baseline.
+    </p>
+  </div>
+</section>
+
+<!-- ============ ABSTRACT ============ -->
+<section class="section" style="padding-top: 3rem;">
+  <div class="container is-max-desktop">
+    <div class="has-text-centered">
+      <h2 class="title is-3 section-title">Abstract</h2>
+    </div>
+    <div class="content has-text-justified">
+      <p>
+        Generalist robot policies use large vision-language-action (VLA)
+        backbones and predict multi-step <em>action chunks</em>. Each chunk
+        runs open-loop, so the policy cannot react to new sensing mid-chunk,
+        and the perception-to-action pipeline (large backbone + multi-step
+        denoising) is too slow to simply re-query more often.
+      </p>
+      <p>
+        <b><span class="brand">&pi;R<sup>2</sup></span></b> makes these policies reactive and real-time
+        without shrinking the backbone:
+      </p>
+      <ul>
+        <li><b>Fast / slow split.</b> Proprioception is refreshed every control
+        tick; the VLM runs asynchronously in the background, so each denoising
+        step uses fresh proprioception with whatever vision feature is currently
+        cached.</li>
+        <li><b>Latency-adaptive flow schedule.</b> In-flight actions are clamped
+        as inpainting conditioning; one Euler step per call denoises a fresh
+        sub-chunk, so the policy emits an action every tick instead of waiting
+        for a full denoising pass.</li>
+      </ul>
+      <p>
+        On a real xArm6 + XHand fine-tuned from
+        <a href="https://github.com/NVIDIA/Isaac-GR00T">GR00T-N1.7</a>,
+        <span class="brand">&pi;R<sup>2</sup></span> closes the loop at <b>25 Hz on a single RTX A5000</b>
+        (&approx; 4&times; faster than the baseline) and improves
+        real-world success rate by up to <b>+20 absolute points</b> over the
+        strongest baseline.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- ============ REAL-WORLD EXPERIMENTS ============ -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="has-text-centered">
+      <h2 class="title is-3 section-title">Real-World Experiments</h2>
+    </div>
+    <p class="caption" style="margin-bottom: 1rem;">
+      Fine-tuned GR00T-N1.7 on xArm6 + XHand. Each method evaluated over
+      20 trials per task with randomized initial object placement.
+    </p>
+    <p class="has-text-centered" style="margin-bottom: 2rem;">
+      <span class="speed-badge">&#9201; All videos play at <b>1&times; real-time speed</b></span>
+    </p>
+
+    <!-- Don't Spill -->
+    <div class="task-block">
+      <h3 class="title is-4 has-text-centered">Task 1 &mdash; Don't Spill</h3>
+      <p class="caption">Pick up a ball, drop it into the bowl, carry the bowl
+        to the cutting board without spilling.</p>
+
+      <div class="columns is-multiline" style="margin-top: 1rem;">
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/spill_sync.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/spill_sync.mp4" type="video/mp4">
+          </video>
+          <div class="label">Flow, Synchronous</div>
+        </div>
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/spill_async.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/spill_async.mp4" type="video/mp4">
+          </video>
+          <div class="label">Flow, Naive Async (TE)</div>
+        </div>
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/spill_rtc.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/spill_rtc.mp4" type="video/mp4">
+          </video>
+          <div class="label">Flow, Train-Time RTC</div>
+        </div>
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/spill_ours.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/spill_ours.mp4" type="video/mp4">
+          </video>
+          <div class="label ours"><span class="brand">&pi;R<sup>2</sup></span> (ours)</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider"/>
+
+    <!-- Tidy Up Book -->
+    <div class="task-block">
+      <h3 class="title is-4 has-text-centered">Task 2 &mdash; Tidy Up Book</h3>
+      <p class="caption">Pull a book out of the stack and place it into the basket.</p>
+
+      <div class="columns is-multiline" style="margin-top: 1rem;">
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/book_sync.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/book_sync.mp4" type="video/mp4">
+          </video>
+          <div class="label">Flow, Synchronous</div>
+        </div>
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/book_async.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/book_async.mp4" type="video/mp4">
+          </video>
+          <div class="label">Flow, Naive Async (TE)</div>
+        </div>
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/book_rtc.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/book_rtc.mp4" type="video/mp4">
+          </video>
+          <div class="label">Flow, Train-Time RTC</div>
+        </div>
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/book_ours.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/book_ours.mp4" type="video/mp4">
+          </video>
+          <div class="label ours"><span class="brand">&pi;R<sup>2</sup></span> (ours)</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="speed-note">
+      Each clip above is one representative trial.
+    </p>
+    <div class="has-text-centered" style="margin-top: 1.25rem;">
+      <a href="./evals_spill.html" class="button is-rounded is-link is-medium"
+         style="font-size: 1.1rem; padding: 0.75rem 1.5rem; margin: 0 0.4rem;">
+        All 20 Don't Spill rollouts &times; 4 methods
+      </a>
+      <a href="./evals_book.html" class="button is-rounded is-link is-medium"
+         style="font-size: 1.1rem; padding: 0.75rem 1.5rem; margin: 0 0.4rem;">
+        All 20 Tidy Up Book rollouts &times; 4 methods
+      </a>
+    </div>
+
+    <!-- ===== TELEOP vs OURS (side-by-side) ===== -->
+    <hr class="divider" style="margin-top: 3rem;"/>
+    <div class="has-text-centered" style="margin-top: 2rem;">
+      <h3 class="title is-4" style="font-family:'Google Sans',sans-serif; color: var(--fast-dark);">
+        <span class="brand">&pi;R<sup>2</sup></span> deploys as fast and smooth as demonstrations
+      </h3>
+      <p class="caption" style="margin-bottom: 2rem; max-width: 920px; margin-left: auto; margin-right: auto;">
+        Side-by-side: human teleoperation demo (used to fine-tune GR00T-N1.7) vs
+        <span class="brand">&pi;R<sup>2</sup></span> rollout, both at the same
+        closed-loop <b>25&nbsp;Hz</b> tick rate.
+      </p>
+    </div>
+
+    <!-- Task selector -->
+    <div class="has-text-centered" style="margin-bottom: 1.5rem;">
+      <div class="tabs is-centered is-toggle is-toggle-rounded" id="teleop-tabs" style="display: inline-flex;">
+        <button class="task-btn active" data-task="spill"
+                style="font-size: 1.1rem; padding: 0.6rem 1.4rem; margin: 0 0.3rem; border-radius: 999px; border: 2px solid var(--fast); background: var(--fast); color: #fff; cursor: pointer; font-weight: 600;">
+          Don't Spill
+        </button>
+        <button class="task-btn" data-task="book"
+                style="font-size: 1.1rem; padding: 0.6rem 1.4rem; margin: 0 0.3rem; border-radius: 999px; border: 2px solid var(--fast); background: #fff; color: var(--fast); cursor: pointer; font-weight: 600;">
+          Tidy Up Book
+        </button>
+      </div>
+    </div>
+
+    <div class="columns is-vcentered">
+      <div class="column is-6 video-cell">
+        <video poster="./static/videos/posters/teleop_spill.jpg" preload="none" id="teleop-human" controls muted loop playsinline>
+          <source src="./static/videos/teleop_spill.mp4" type="video/mp4">
+        </video>
+        <div class="label">Human teleop demo</div>
+      </div>
+      <div class="column is-6 video-cell ours">
+        <video poster="./static/videos/posters/spill_ours.jpg" preload="none" id="teleop-ours" controls muted loop playsinline>
+          <source src="./static/videos/spill_ours.mp4" type="video/mp4">
+        </video>
+        <div class="label ours"><span class="brand">&pi;R<sup>2</sup></span> rollout</div>
+      </div>
+    </div>
+
+    <script>
+      (function () {
+        var btns = document.querySelectorAll('#teleop-tabs .task-btn');
+        var vOurs = document.getElementById('teleop-ours');
+        var vHuman = document.getElementById('teleop-human');
+        function setTask(task) {
+          btns.forEach(function (b) {
+            var on = b.dataset.task === task;
+            b.style.background = on ? 'var(--fast)' : '#fff';
+            b.style.color = on ? '#fff' : 'var(--fast)';
+            b.classList.toggle('active', on);
+          });
+          vOurs.querySelector('source').setAttribute('src', './static/videos/' + task + '_ours.mp4');
+          vHuman.querySelector('source').setAttribute('src', './static/videos/teleop_' + task + '.mp4');
+          vOurs.load(); vHuman.load();
+          vOurs.play().catch(function () {}); vHuman.play().catch(function () {});
+        }
+        btns.forEach(function (b) { b.addEventListener('click', function () { setTask(b.dataset.task); }); });
+      })();
+    </script>
+
+    <!-- Results table -->
+    <h3 class="title is-4 has-text-centered" style="margin-top: 3rem;">Quantitative Results</h3>
+    <p class="caption">
+      <i>d</i> = per-call delay in 25-Hz control ticks (1 tick &approx; 40 ms).
+      For baselines, vision is computed synchronously per call so a single <i>d</i>
+      covers both. <span class="brand">&pi;R<sup>2</sup></span> decouples them:
+      <i>d</i> is the proprioception delay (action-head only), and
+      <i>d<sub>vis</sub></i> &approx; 4 ticks (~100&nbsp;ms) is the staleness of
+      the asynchronously-cached visual feature.
+      SR = success rate over 20 trials. Prog = subgoal progress score
+      (Don't Spill: 4 subgoals, max 80; Tidy Up Book: 2 subgoals, max 40).
+    </p>
+    <table class="table is-bordered is-narrow is-hoverable is-fullwidth results">
+      <thead>
+        <tr>
+          <th rowspan="2" class="th-method">Method</th>
+          <th rowspan="2">d <span style="font-weight: 400;">(delay, ticks)</span></th>
+          <th colspan="2" class="group-left">Don't Spill</th>
+          <th colspan="2" class="group-left">Tidy Up Book</th>
+        </tr>
+        <tr>
+          <th>SR</th><th>Prog</th><th>SR</th><th>Prog</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="method">Flow, Synchronous</td><td>4&ndash;5</td>
+          <td>4/20</td><td>16/80</td><td>4/20</td><td>9/40</td>
+        </tr>
+        <tr>
+          <td class="method">Flow, Naive Async (TE)</td><td>4&ndash;5</td>
+          <td>7/20</td><td>30/80</td><td>7/20</td><td>15/40</td>
+        </tr>
+        <tr>
+          <td class="method">Flow, Train-Time RTC</td><td>5</td>
+          <td>9/20</td><td>52/80</td><td>8/20</td><td>18/40</td>
+        </tr>
+        <tr class="ours">
+          <td class="method"><span class="brand">&pi;R<sup>2</sup></span> (ours)</td>
+          <td>d&nbsp;=&nbsp;1&ndash;2<br>d<sub>vis</sub>&nbsp;&approx;&nbsp;4</td>
+          <td>10/20</td><td>58/80</td><td>12/20</td><td>24/40</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+
+
+<style>
+  .sim-meta { font-size: 1rem; color: #555; margin-top: 0.3rem; font-family: monospace; }
+</style>
+
+<script>
+  (function () {
+    var slider = document.getElementById('d-slider');
+    var dDisplay = document.getElementById('d-value');
+    // Each entry: actual d for that slider value, plus MSR.
+    // slider d0 -> {d, msr} (and d_vis for oursA).
+    var data = {
+      async:  [{d:2, msr:0.16}, {d:4, msr:0.24}, {d:6, msr:0.21}],
+      rtc:    [{d:2, msr:0.36}, {d:4, msr:0.25}, {d:6, msr:0.18}],
+      ours:   [{d:1, msr:0.37}, {d:2, msr:0.28}, {d:3, msr:0.25}],
+      oursA:  [{d:1, dv:1, msr:0.33}, {d:1, dv:2, msr:0.38}, {d:1, dv:3, msr:0.32}],
+    };
+    function fmt(method, e) {
+      if (method === 'oursA') {
+        return 'd = ' + e.d + ', d<sub>vis</sub> = ' + e.dv +
+               '<br>SR = ' + e.msr.toFixed(2);
+      }
+      return 'd = ' + e.d + '<br>SR = ' + e.msr.toFixed(2);
+    }
+    function swap(d0) {
+      dDisplay.textContent = d0;
+      Object.keys(data).forEach(function (m) {
+        var v = document.getElementById('sim-' + m);
+        v.querySelector('source').setAttribute('src',
+          './static/videos/sim_' + m + '_d' + d0 + '.mp4');
+        v.load(); v.play().catch(function () {});
+        document.getElementById('meta-' + m).innerHTML = fmt(m, data[m][d0 - 1]);
+      });
+    }
+    slider.addEventListener('input', function (e) { swap(parseInt(e.target.value)); });
+  })();
+</script>
+
+
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer" style="padding: 1.5rem 1rem; background: #fafafa;">
+  <div class="container has-text-centered" style="color: #888; font-size: 0.85rem;">
+    Template adapted from the
+    <a href="https://github.com/eliahuhorwitz/Academic-project-page-template">
+      Academic Project Page Template</a>
+    (originally from <a href="https://nerfies.github.io/">Nerfies</a>).
+  </div>
+</footer>
+
+</body>
+</html>
