@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Catch Book &mdash; All Rollouts &mdash; piR2</title>
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <style>
+    :root {
+      --fast: #2c63b8; --fast-dark: #1a4185; --fast-soft: #e8f1ff;
+      --slow: #d8447b; --slow-soft: #fde4ee;
+    }
+    body { font-family: 'Noto Sans', sans-serif; color: #1a1a1a; font-size: 19px; line-height: 1.65; }
+    h1, h2, h3 { font-family: 'Google Sans', sans-serif; }
+    .container.is-max-desktop { max-width: 1180px !important; }
+    .top-bar { background: linear-gradient(135deg, var(--fast-soft), var(--slow-soft)); padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .top-bar a { color: var(--fast-dark); font-weight: 600; }
+    .top-bar .right a { margin-left: 1rem; }
+    .section-wrap { padding: 2.5rem 1.5rem; }
+    .page-title { font-size: 2.5rem; color: var(--fast-dark); }
+    .method-block { margin-top: 2.5rem; }
+    .method-block .method-label {
+      font-size: 1.5rem; font-weight: 700; color: #333;
+      padding: 0.6rem 0;
+      border-bottom: 2px solid #e0e6ef;
+      margin-bottom: 1rem;
+    }
+    .method-block.ours .method-label {
+      background: linear-gradient(90deg, var(--fast), var(--slow));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      border-bottom: 2px solid var(--fast);
+    }
+    .method-block video {
+      width: 100%; max-width: 1080px; display: block; margin: 0 auto;
+      border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    }
+    .method-block.ours video {
+      box-shadow: 0 4px 18px rgba(44, 99, 184, 0.3);
+      outline: 3px solid var(--fast); outline-offset: 2px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="top-bar">
+  <div><a href="./index.html">&larr; Main page</a></div>
+  <div class="right">
+    <a href="./evals_spill.html">Don&#39;t Spill</a>
+    <a href="./evals_book.html">Tidy Up Book</a>
+    <a href="./evals_box.html">Insert Box</a>
+  </div>
+</div>
+
+<section class="section-wrap">
+  <div class="container is-max-desktop">
+    <h1 class="title page-title">Task 4 &mdash; Catch Book</h1>
+    <p style="color:#555; margin-bottom: 0.5rem;">
+      All 20 rollouts per method, concatenated into one video. React to a falling
+      book and catch it in the palm before it drops.
+    </p>
+    <p style="color:#555;"><b>All videos play at 1&times; real-time speed.</b>
+      Each trial is marked success &#10003; or failure &#10007;. Click any point on
+      the timeline to skip between rollouts.</p>
+
+    <div class="method-block">
+      <div class="method-label">Flow, Synchronous</div>
+      <video poster="./static/videos/posters/catch_sync_grid.jpg" controls muted playsinline preload="none">
+        <source src="./static/videos/grid/catch_sync_grid.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="method-block">
+      <div class="method-label">Flow, Naive Async (TE)</div>
+      <video poster="./static/videos/posters/catch_async_grid.jpg" controls muted playsinline preload="none">
+        <source src="./static/videos/grid/catch_async_grid.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="method-block">
+      <div class="method-label">Flow, Train-Time RTC</div>
+      <video poster="./static/videos/posters/catch_rtc_grid.jpg" controls muted playsinline preload="none">
+        <source src="./static/videos/grid/catch_rtc_grid.mp4" type="video/mp4">
+      </video>
+    </div>
+    <div class="method-block ours">
+      <div class="method-label"><span class="brand">&pi;R<sup>2</sup></span> (ours)</div>
+      <video poster="./static/videos/posters/catch_ours_grid.jpg" controls muted playsinline preload="none">
+        <source src="./static/videos/grid/catch_ours_grid.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<footer style="padding: 1.5rem 1rem; background: #fafafa; text-align: center; color: #888; font-size: 0.9rem;">
+  <a href="./index.html">&larr; Main page</a>
+  &nbsp;|&nbsp;
+  <a href="./evals_spill.html">Don&#39;t Spill rollouts &rarr;</a>
+</footer>
+
+</body>
+</html>

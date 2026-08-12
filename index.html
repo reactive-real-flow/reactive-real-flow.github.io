@@ -278,11 +278,13 @@
 <section class="section">
   <div class="container is-max-desktop">
     <div class="has-text-centered">
-      <h2 class="title is-3 section-title">Real-World Experiments</h2>
+      <h2 class="title is-3 section-title">Real World Results</h2>
     </div>
     <p class="caption" style="margin-bottom: 1rem;">
-      Fine-tuned GR00T-N1.7 on xArm6 + XHand. Each method evaluated over
-      20 trials per task with randomized initial object placement.
+      <span class="brand">&pi;R<sup>2</sup></span> tracks smoothly through contact,
+      replanning closed-loop every 1&ndash;2 control ticks instead of committing to a
+      long open-loop chunk. All methods fine-tune GR00T-N1.7 (xArm6 + XHand,
+      25&nbsp;Hz), evaluated over 20 trials per task with randomized initial placement.
     </p>
     <p class="has-text-centered" style="margin-bottom: 2rem;">
       <span class="speed-badge">&#9201; All videos play at <b>1&times; real-time speed</b></span>
@@ -293,6 +295,9 @@
       <h3 class="title is-4 has-text-centered">Task 1 &mdash; Don't Spill</h3>
       <p class="caption">Pick up a ball, drop it into the bowl, carry the bowl
         to the cutting board without spilling.</p>
+      <div class="has-text-centered" style="margin: 0.25rem 0 0.5rem;">
+        <button type="button" class="button is-small is-rounded playall-btn">&#9654;&nbsp; Play all</button>
+      </div>
 
       <div class="columns is-multiline" style="margin-top: 1rem;">
         <div class="column is-3 video-cell">
@@ -328,6 +333,9 @@
     <div class="task-block">
       <h3 class="title is-4 has-text-centered">Task 2 &mdash; Tidy Up Book</h3>
       <p class="caption">Pull a book out of the stack and place it into the basket.</p>
+      <div class="has-text-centered" style="margin: 0.25rem 0 0.5rem;">
+        <button type="button" class="button is-small is-rounded playall-btn">&#9654;&nbsp; Play all</button>
+      </div>
 
       <div class="columns is-multiline" style="margin-top: 1rem;">
         <div class="column is-3 video-cell">
@@ -357,30 +365,134 @@
       </div>
     </div>
 
+    <hr class="divider"/>
+
+    <!-- Insert Box -->
+    <div class="task-block">
+      <h3 class="title is-4 has-text-centered">Task 3 &mdash; Insert Box</h3>
+      <p class="caption">Push a box upright against a wall, then slot it into a row of books.</p>
+      <div class="has-text-centered" style="margin: 0.25rem 0 0.5rem;">
+        <button type="button" class="button is-small is-rounded playall-btn">&#9654;&nbsp; Play all</button>
+      </div>
+
+      <div class="columns is-multiline" style="margin-top: 1rem;">
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/box_sync.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/box_sync.mp4" type="video/mp4">
+          </video>
+          <div class="label">Flow, Synchronous</div>
+        </div>
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/box_async.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/box_async.mp4" type="video/mp4">
+          </video>
+          <div class="label">Flow, Naive Async (TE)</div>
+        </div>
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/box_rtc.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/box_rtc.mp4" type="video/mp4">
+          </video>
+          <div class="label">Flow, Train-Time RTC</div>
+        </div>
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/box_ours.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/box_ours.mp4" type="video/mp4">
+          </video>
+          <div class="label ours"><span class="brand">&pi;R<sup>2</sup></span> (ours)</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider"/>
+
+    <!-- Catch Book -->
+    <div class="task-block">
+      <h3 class="title is-4 has-text-centered">Task 4 &mdash; Catch Book</h3>
+      <p class="caption">React to a falling book and catch it in the palm before it drops.</p>
+      <div class="has-text-centered" style="margin: 0.25rem 0 0.5rem;">
+        <button type="button" class="button is-small is-rounded playall-btn">&#9654;&nbsp; Play all</button>
+      </div>
+
+      <div class="columns is-multiline" style="margin-top: 1rem;">
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/catch_sync.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/catch_sync.mp4" type="video/mp4">
+          </video>
+          <div class="label">Flow, Synchronous</div>
+        </div>
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/catch_async.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/catch_async.mp4" type="video/mp4">
+          </video>
+          <div class="label">Flow, Naive Async (TE)</div>
+        </div>
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/catch_rtc.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/catch_rtc.mp4" type="video/mp4">
+          </video>
+          <div class="label">Flow, Train-Time RTC</div>
+        </div>
+        <div class="column is-3 video-cell">
+          <video poster="./static/videos/posters/catch_ours.jpg" preload="none" controls muted loop playsinline>
+            <source src="./static/videos/catch_ours.mp4" type="video/mp4">
+          </video>
+          <div class="label ours"><span class="brand">&pi;R<sup>2</sup></span> (ours)</div>
+        </div>
+      </div>
+    </div>
+
     <p class="speed-note">
-      Each clip above is one representative trial.
+      Each clip above is one representative trial, marked success &#10003; or failure &#10007;.
+      See all 20 rollouts per method below.
     </p>
     <div class="has-text-centered" style="margin-top: 1.25rem;">
       <a href="./evals_spill.html" class="button is-rounded is-link is-medium"
-         style="font-size: 1.1rem; padding: 0.75rem 1.5rem; margin: 0 0.4rem;">
+         style="font-size: 1.1rem; padding: 0.75rem 1.5rem; margin: 0.5rem 0.85rem;">
         All 20 Don't Spill rollouts &times; 4 methods
       </a>
       <a href="./evals_book.html" class="button is-rounded is-link is-medium"
-         style="font-size: 1.1rem; padding: 0.75rem 1.5rem; margin: 0 0.4rem;">
+         style="font-size: 1.1rem; padding: 0.75rem 1.5rem; margin: 0.5rem 0.85rem;">
         All 20 Tidy Up Book rollouts &times; 4 methods
       </a>
+      <a href="./evals_box.html" class="button is-rounded is-link is-medium"
+         style="font-size: 1.1rem; padding: 0.75rem 1.5rem; margin: 0.5rem 0.85rem;">
+        All 20 Insert Box rollouts &times; 4 methods
+      </a>
+      <a href="./evals_catch.html" class="button is-rounded is-link is-medium"
+         style="font-size: 1.1rem; padding: 0.75rem 1.5rem; margin: 0.5rem 0.85rem;">
+        All 20 Catch Book rollouts &times; 4 methods
+      </a>
     </div>
+
+    <!-- Play-all: sync-play the four method clips within one task block -->
+    <script>
+      (function () {
+        document.querySelectorAll('.playall-btn').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var block = btn.closest('.task-block');
+            if (!block) return;
+            var vids = block.querySelectorAll('video');
+            var playing = Array.prototype.some.call(vids, function (v) { return !v.paused && !v.ended; });
+            vids.forEach(function (v) {
+              if (playing) { v.pause(); v.loop = true; }
+              else { v.loop = false; try { v.currentTime = 0; } catch (e) {} v.play().catch(function () {}); }
+            });
+            btn.innerHTML = playing ? '&#9654;&nbsp; Play all' : '&#10073;&#10073;&nbsp; Pause all';
+          });
+        });
+      })();
+    </script>
 
     <!-- ===== TELEOP vs OURS (side-by-side) ===== -->
     <hr class="divider" style="margin-top: 3rem;"/>
     <div class="has-text-centered" style="margin-top: 2rem;">
       <h3 class="title is-4" style="font-family:'Google Sans',sans-serif; color: var(--fast-dark);">
-        <span class="brand">&pi;R<sup>2</sup></span> deploys as fast and smooth as demonstrations
+        <span class="brand">&pi;R<sup>2</sup></span> matches the demonstration's smoothness and speed
       </h3>
       <p class="caption" style="margin-bottom: 2rem; max-width: 920px; margin-left: auto; margin-right: auto;">
-        Side-by-side: human teleoperation demo (used to fine-tune GR00T-N1.7) vs
-        <span class="brand">&pi;R<sup>2</sup></span> rollout, both at the same
-        closed-loop <b>25&nbsp;Hz</b> tick rate.
+        Next to the human teleoperator who collected the demos,
+        <span class="brand">&pi;R<sup>2</sup></span> runs continuously and keeps pace,
+        without the chunk-boundary stalls of open-loop baselines.
       </p>
     </div>
 
@@ -388,12 +500,20 @@
     <div class="has-text-centered" style="margin-bottom: 1.5rem;">
       <div class="tabs is-centered is-toggle is-toggle-rounded" id="teleop-tabs" style="display: inline-flex;">
         <button class="task-btn active" data-task="spill"
-                style="font-size: 1.1rem; padding: 0.6rem 1.4rem; margin: 0 0.3rem; border-radius: 999px; border: 2px solid var(--fast); background: var(--fast); color: #fff; cursor: pointer; font-weight: 600;">
+                style="font-size: 1.1rem; padding: 0.6rem 1.4rem; margin: 0.35rem 0.6rem; border-radius: 999px; border: 2px solid var(--fast); background: var(--fast); color: #fff; cursor: pointer; font-weight: 600;">
           Don't Spill
         </button>
         <button class="task-btn" data-task="book"
-                style="font-size: 1.1rem; padding: 0.6rem 1.4rem; margin: 0 0.3rem; border-radius: 999px; border: 2px solid var(--fast); background: #fff; color: var(--fast); cursor: pointer; font-weight: 600;">
+                style="font-size: 1.1rem; padding: 0.6rem 1.4rem; margin: 0.35rem 0.6rem; border-radius: 999px; border: 2px solid var(--fast); background: #fff; color: var(--fast); cursor: pointer; font-weight: 600;">
           Tidy Up Book
+        </button>
+        <button class="task-btn" data-task="box"
+                style="font-size: 1.1rem; padding: 0.6rem 1.4rem; margin: 0.35rem 0.6rem; border-radius: 999px; border: 2px solid var(--fast); background: #fff; color: var(--fast); cursor: pointer; font-weight: 600;">
+          Insert Box
+        </button>
+        <button class="task-btn" data-task="catch"
+                style="font-size: 1.1rem; padding: 0.6rem 1.4rem; margin: 0.35rem 0.6rem; border-radius: 999px; border: 2px solid var(--fast); background: #fff; color: var(--fast); cursor: pointer; font-weight: 600;">
+          Catch Book
         </button>
       </div>
     </div>
@@ -425,7 +545,8 @@
             b.style.color = on ? '#fff' : 'var(--fast)';
             b.classList.toggle('active', on);
           });
-          vOurs.querySelector('source').setAttribute('src', './static/videos/' + task + '_ours.mp4');
+          var oursFile = (task === 'catch') ? 'catch_ours_tele.mp4' : (task + '_ours.mp4');
+          vOurs.querySelector('source').setAttribute('src', './static/videos/' + oursFile);
           vHuman.querySelector('source').setAttribute('src', './static/videos/teleop_' + task + '.mp4');
           vOurs.load(); vHuman.load();
           vOurs.play().catch(function () {}); vHuman.play().catch(function () {});
@@ -435,7 +556,10 @@
     </script>
 
     <!-- Results table -->
-    <h3 class="title is-4 has-text-centered" style="margin-top: 3rem;">Quantitative Results</h3>
+    <h3 class="title is-4 has-text-centered" style="margin-top: 3rem;">Quantitative results</h3>
+    <p class="has-text-centered" style="margin-bottom: 0.5rem;">
+      <span class="brand">&pi;R<sup>2</sup></span> leads on every task, in both success rate and progress.
+    </p>
     <p class="caption">
       <i>d</i> = per-call delay in 25-Hz control ticks (1 tick &approx; 40 ms).
       For baselines, vision is computed synchronously per call so a single <i>d</i>
@@ -444,7 +568,8 @@
       <i>d<sub>vis</sub></i> &approx; 4 ticks (~100&nbsp;ms) is the staleness of
       the asynchronously-cached visual feature.
       SR = success rate over 20 trials. Prog = subgoal progress score
-      (Don't Spill: 4 subgoals, max 80; Tidy Up Book: 2 subgoals, max 40).
+      (Don't Spill &amp; Insert Box: 4 subgoals, max 80; Tidy Up Book: 2 subgoals, max 40;
+      Catch Book: 1 subgoal, max 20).
     </p>
     <table class="table is-bordered is-narrow is-hoverable is-fullwidth results">
       <thead>
@@ -453,28 +578,30 @@
           <th rowspan="2">d <span style="font-weight: 400;">(delay, ticks)</span></th>
           <th colspan="2" class="group-left">Don't Spill</th>
           <th colspan="2" class="group-left">Tidy Up Book</th>
+          <th colspan="2" class="group-left">Insert Box</th>
+          <th colspan="2" class="group-left">Catch Book</th>
         </tr>
         <tr>
-          <th>SR</th><th>Prog</th><th>SR</th><th>Prog</th>
+          <th>SR</th><th>Prog</th><th>SR</th><th>Prog</th><th>SR</th><th>Prog</th><th>SR</th><th>Prog</th>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td class="method">Flow, Synchronous</td><td>4&ndash;5</td>
-          <td>4/20</td><td>16/80</td><td>4/20</td><td>9/40</td>
+          <td>4/20</td><td>16/80</td><td>4/20</td><td>9/40</td><td>11/20</td><td>56/80</td><td>4/20</td><td>4/20</td>
         </tr>
         <tr>
           <td class="method">Flow, Naive Async (TE)</td><td>4&ndash;5</td>
-          <td>7/20</td><td>30/80</td><td>7/20</td><td>15/40</td>
+          <td>7/20</td><td>30/80</td><td>7/20</td><td>15/40</td><td>12/20</td><td>61/80</td><td>2/20</td><td>2/20</td>
         </tr>
         <tr>
           <td class="method">Flow, Train-Time RTC</td><td>5</td>
-          <td>9/20</td><td>52/80</td><td>8/20</td><td>18/40</td>
+          <td>9/20</td><td>45/80</td><td>8/20</td><td>18/40</td><td>10/20</td><td>53/80</td><td>5/20</td><td>5/20</td>
         </tr>
         <tr class="ours">
           <td class="method"><span class="brand">&pi;R<sup>2</sup></span> (ours)</td>
           <td>d&nbsp;=&nbsp;1&ndash;2<br>d<sub>vis</sub>&nbsp;&approx;&nbsp;4</td>
-          <td>10/20</td><td>58/80</td><td>12/20</td><td>24/40</td>
+          <td>10/20</td><td>55/80</td><td>12/20</td><td>24/40</td><td>16/20</td><td>68/80</td><td>11/20</td><td>11/20</td>
         </tr>
       </tbody>
     </table>
